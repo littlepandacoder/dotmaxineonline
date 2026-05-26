@@ -1,0 +1,106 @@
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'Jost', sans-serif;
+}
+
+html {
+  scroll-behavior: auto;
+  scrollbar-width: none;       /* Firefox */
+}
+
+html::-webkit-scrollbar {
+  display: none;               /* Chrome / Safari / Edge */
+}
+
+body {
+  background: black;
+  color: white;
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: var(--font-body);
+}
+
+/* ── Depth Gallery: label overlay (scoped to section via labelContainer) ── */
+.plane-label-overlay {
+  position: fixed; /* becomes relative to .labelOverlay via transform containment */
+  inset: 0;
+  pointer-events: none;
+  transition: opacity 260ms ease;
+  color: rgba(244, 244, 244, 0.92);
+  font-size: 0.72rem;
+}
+
+.plane-label-overlay__left {
+  position: absolute;
+  left: clamp(2.5rem, 8vw, 12rem);
+  top: 50%;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.plane-label-overlay__index { margin: 0; font-size: 9px; }
+
+.plane-label-overlay__chip {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.14);
+}
+
+.plane-label-overlay__right {
+  position: absolute;
+  right: clamp(2.5rem, 7vw, 10rem);
+  top: 50%;
+}
+
+.plane-label-card {
+  width: min(28vw, 360px);
+  display: grid;
+  pointer-events: none;
+}
+
+.plane-label-card__word {
+  margin: 0;
+  font-size: clamp(9px, 0.78vw, 11px);
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.plane-label-card__specs { margin: 0; display: grid; gap: 0.25rem; }
+
+.plane-label-card__row {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 3.5rem 1fr;
+  align-items: baseline;
+  gap: 0.8rem;
+}
+
+.plane-label-card__row dt,
+.plane-label-card__row dd { margin: 0; }
+
+.plane-label-card__row dt { font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; }
+
+.plane-label-card__value { font-size: clamp(9px, 0.72vw, 11px); }
+
+.velocity-visualizer { display: none !important; }

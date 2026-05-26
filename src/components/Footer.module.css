@@ -1,0 +1,132 @@
+.wrap {
+  height: 100vh;
+  background: #0a0a0a;
+  padding: 0 16px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.footer {
+  background: #111;
+  position: relative;
+  overflow: hidden;
+  padding: 60px 48px 0;
+  border-radius: 100px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.top {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 40px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tagline {
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.5;
+  max-width: 260px;
+  color: white;
+}
+
+.col h4 {
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  margin-bottom: 18px;
+  color: white;
+}
+
+.col ul {
+  list-style: none;
+}
+
+.col ul li {
+  margin-bottom: 10px;
+}
+
+.col ul li a {
+  font-weight: 300;
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.6);
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.col ul li a:hover {
+  color: white;
+}
+
+.contactLink {
+  font-weight: 300;
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.6);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s;
+}
+
+.contactLink:hover {
+  color: white;
+}
+
+.bigText {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(120px, 18vw, 220px);
+  line-height: 0.85;
+  letter-spacing: -0.02em;
+  color: white;
+  margin-top: auto;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 18px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.copy {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 300;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 300;
+}
+
+.links a {
+  color: rgba(255, 255, 255, 0.5);
+  transition: color 0.2s;
+  padding: 0 4px;
+}
+
+.links a:hover {
+  color: white;
+}
+
+.sep {
+  margin: 0 6px;
+  opacity: 0.3;
+}
