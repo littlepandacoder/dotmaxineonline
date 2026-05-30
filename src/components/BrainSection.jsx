@@ -1,7 +1,11 @@
 import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import styles from './BrainSection.module.css'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const VERT = `
   attribute float aSize;
@@ -27,6 +31,9 @@ const FRAG = `
 
 export default function BrainSection() {
   const sectionRef = useRef(null)
+  const contentRef = useRef(null)
+  const labelRef = useRef(null)
+  const headingRef = useRef(null)
 
   useEffect(() => {
     const section = sectionRef.current
@@ -144,11 +151,45 @@ export default function BrainSection() {
     }
   }, [])
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Entrance: text rises in from below as section scrolls into view
+      gsap.fromTo(
+        [labelRef.current, headingRef.current],
+        { y: 50, opacity: 0 },
+        {
+          y: 0, opacity: 1, stagger: 0.15, duration: 1.4, ease: 'power3.out',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 75%',
+            end: 'top 25%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      )
+
+      // Exit: content drifts up, blurs, fades as section scrolls out
+      gsap.to(contentRef.current, {
+        y: -160,
+        opacity: 0,
+        filter: 'blur(12px)',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: '+=400',
+          scrub: 1,
+        },
+      })
+    })
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <section ref={sectionRef} className={styles.section}>
-      <div className={styles.content}>
-        <p className={styles.label}>Intelligence</p>
-        <h2 className={styles.heading}>Built to think.<br />Designed to feel.</h2>
+    <section ref={sectionRef} data-snap className={styles.section}>
+      <div ref={contentRef} className={styles.content}>
+        <p ref={labelRef} className={styles.label}></p>
+        <h2 ref={headingRef} className={styles.heading}>What We Serve.</h2>
       </div>
     </section>
   )

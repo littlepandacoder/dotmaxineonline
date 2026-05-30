@@ -35,7 +35,7 @@ export default function SmoothSnap({ locationState }) {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    const lenis = new Lenis({ lerp: 0.1, smoothWheel: true, wheelMultiplier: 1, touchMultiplier: 2 })
+    const lenis = new Lenis({ lerp: 0.14, smoothWheel: true, wheelMultiplier: 1.4, touchMultiplier: 2.5 })
 
     if (savedScroll.current !== null) {
       lenis.scrollTo(savedScroll.current, { immediate: true })
@@ -67,7 +67,7 @@ export default function SmoothSnap({ locationState }) {
     let navigating = false
     const goTo = (y, lock = false) => {
       navigating = true
-      lenis.scrollTo(y, { duration: 1, easing: easeOut, lock })
+      lenis.scrollTo(y, { duration: 0.7, easing: easeOut, lock })
       setTimeout(() => { navigating = false }, 1200)
     }
 
