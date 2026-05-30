@@ -89,11 +89,11 @@ export default function BrainSection() {
         geo.setAttribute('aSize', new THREE.Float32BufferAttribute(sizes, 1))
 
         const mat = new THREE.ShaderMaterial({
-          uniforms: { color: { value: new THREE.Color(0x4499ff) } },
+          uniforms: { color: { value: new THREE.Color(0x1a55cc) } },
           vertexShader: VERT,
           fragmentShader: FRAG,
           transparent: true,
-          blending: THREE.AdditiveBlending,
+          blending: THREE.NormalBlending,
           depthWrite: false,
         })
 
