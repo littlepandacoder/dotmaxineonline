@@ -154,6 +154,7 @@ export default function DepthGallery({ locationState }) {
       className={styles.section}
     >
       <canvas ref={canvasRef} className={styles.canvas} />
+      <div className={styles.topFade} />
       <div ref={overlayRef} className={styles.labelOverlay} />
       <div className={styles.heading}>
         <p className={styles.label}>Our Flowers</p>

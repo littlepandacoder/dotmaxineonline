@@ -5,6 +5,17 @@
   background: #fffaf0;
 }
 
+.topFade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 240px;
+  background: linear-gradient(to bottom, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+  z-index: 5;
+}
+
 /* Three.js canvas fills the section only */
 .canvas {
   position: absolute;
