@@ -5,173 +5,129 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// Exponential-out easing: fast launch, long silky deceleration
-const expoOut = (t) => 1 - Math.pow(1 - t, 5)
-
-const SNAP_DURATION = 1.2
-const SNAP_ZONE     = 0.25   // fraction of vh: how close a section must be to auto-pull in
+const easeOut = (t) => 1 - Math.pow(1 - t, 4)
 
 export default function SmoothSnap({ locationState }) {
-  const animating = useRef(false)
+  const savedScroll = useRef(null)
 
-  // Restore scroll position synchronously before the browser paints to
-  // prevent a one-frame flash of the hero when returning from a case study.
   useLayoutEffect(() => {
-    const raw = sessionStorage.getItem('dm_pageScroll')
-    if (raw !== null) {
-      const y = parseFloat(raw)
+    history.scrollRestoration = 'manual'
+
+    let target = null
+    const stored = sessionStorage.getItem('dm_pageScroll')
+    if (stored !== null) {
       sessionStorage.removeItem('dm_pageScroll')
-      if (!isNaN(y) && y > 0) window.scrollTo({ top: y, behavior: 'instant' })
-    } else if (locationState?.scrollTo === 'gallery') {
-      // Fallback: user arrived via the CaseStudy Back button without a saved page Y
-      // (e.g. direct-URL case study). Scroll to the gallery section top.
+      const y = parseFloat(stored)
+      if (!isNaN(y) && y > 0) target = y
+    }
+    if (target === null && locationState?.pageScroll) {
+      const y = parseFloat(locationState.pageScroll)
+      if (!isNaN(y) && y > 0) target = y
+    }
+    if (target === null && locationState?.scrollTo === 'gallery') {
       const el = document.getElementById('depth-gallery')
-      if (el) window.scrollTo({ top: el.offsetTop, behavior: 'instant' })
+      if (el) target = el.offsetTop
+    }
+    if (target !== null) {
+      savedScroll.current = target
+      window.scrollTo({ top: target, behavior: 'instant' })
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    // ── Lenis ────────────────────────────────────────────────────────
-    // Lerps the native scroll value each frame → everything glides as
-    // one continuous surface instead of jumping between discrete positions.
-    const lenis = new Lenis({
-      lerp: 0.075,          // lower = silkier/slower, higher = snappier
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
-    })
+    const lenis = new Lenis({ lerp: 0.1, smoothWheel: true, wheelMultiplier: 1, touchMultiplier: 2 })
 
-    // Wire Lenis into GSAP's ticker so it drives exactly one raf per frame
-    const onTick = (time) => lenis.raf(time * 1000)
+    if (savedScroll.current !== null) {
+      lenis.scrollTo(savedScroll.current, { immediate: true })
+      savedScroll.current = null
+    }
+
+    const onTick = (t) => lenis.raf(t * 1000)
     gsap.ticker.add(onTick)
     gsap.ticker.lagSmoothing(0)
-
-    // Keep ScrollTrigger synced to Lenis's lerped position
     lenis.on('scroll', ScrollTrigger.update)
 
-    // ── Entrance effects ─────────────────────────────────────────────
-    // Each snap section scales from 1.06 → 1 and fades in as it scrolls
-    // into the viewport. scrub:true ties this to scroll position so the
-    // GSAP-driven scroll plays the animation in perfect sync.
-    const snaps = () => [...document.querySelectorAll('[data-snap]')]
-
+    // Entrance animations — skip sections with data-no-entrance
     const ctx = gsap.context(() => {
-      snaps().forEach(section => {
+      document.querySelectorAll('[data-snap]').forEach((el) => {
+        if (el.dataset.noEntrance !== undefined) return
         gsap.fromTo(
-          section,
+          el,
+          { scale: 1.06, opacity: 0.5, transformOrigin: 'center top', willChange: 'transform, opacity' },
           {
-            scale: 1.06,
-            opacity: 0.5,
-            transformOrigin: 'center top',
-            willChange: 'transform, opacity',
-          },
-          {
-            scale: 1,
-            opacity: 1,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: section,
-              start: 'top bottom',
-              end: 'top top',
-              scrub: true,
-            },
+            scale: 1, opacity: 1, ease: 'none',
+            scrollTrigger: { trigger: el, start: 'top bottom', end: 'top top', scrub: true },
           }
         )
       })
     })
 
-    // ── Navigation ───────────────────────────────────────────────────
-    const goTo = (y) => {
-      animating.current = true
-      lenis.scrollTo(y, {
-        duration: SNAP_DURATION,
-        easing: expoOut,
-        lock: true,           // prevents wheel input from interfering mid-animation
-        onComplete: () => { animating.current = false },
-      })
+    const snaps = () => [...document.querySelectorAll('[data-snap]')]
+
+    let navigating = false
+    const goTo = (y, lock = false) => {
+      navigating = true
+      lenis.scrollTo(y, { duration: 1, easing: easeOut, lock })
+      setTimeout(() => { navigating = false }, 1200)
     }
 
-    // ── Wheel ────────────────────────────────────────────────────────
-    // Fires after Lenis's own handler (registered first), so lenis.scrollTo()
-    // overrides any delta Lenis already applied for the same event.
-    const onWheel = (e) => {
-      if (animating.current) return
-
-      const els = snaps()
-      const vh  = window.innerHeight
-
-      // Locked at a snap point → navigate to next/prev
-      const atSnap = els.find(el => Math.abs(el.getBoundingClientRect().top) < 15)
-      if (atSnap) {
-        const idx = els.indexOf(atSnap)
-        if (e.deltaY > 0) {
-          if (idx < els.length - 1) goTo(els[idx + 1].offsetTop)
-        } else {
-          goTo(idx > 0 ? els[idx - 1].offsetTop : 0)
-        }
-        return
-      }
-
-      // Near a snap point → pull it in
-      const zone = vh * SNAP_ZONE
-      if (e.deltaY > 0) {
-        const near = els.find(el => { const t = el.getBoundingClientRect().top; return t > 0 && t < zone })
-        if (near) goTo(near.offsetTop)
-      } else {
-        const near = [...els].reverse().find(el => { const t = el.getBoundingClientRect().top; return t < 0 && t > -zone })
-        if (near) goTo(near.offsetTop)
-      }
-      // Otherwise (mid-HeroZoom) → Lenis handles it freely
-    }
-
-    // ── Scroll-end auto-snap ─────────────────────────────────────────
-    // After Lenis settles, pull in any section that drifted to within 45 % of view.
+    // Auto-snap after scroll settles — skip if a data-no-snap section is visible
     let snapTimer = null
     lenis.on('scroll', () => {
       clearTimeout(snapTimer)
       snapTimer = setTimeout(() => {
-        if (animating.current) return
-        const vh = window.innerHeight
-        const candidate = snaps().find(el => {
-          const t = Math.abs(el.getBoundingClientRect().top)
-          return t > 15 && t < vh * 0.45
+        if (navigating) return
+        const noSnapActive = [...document.querySelectorAll('[data-no-snap]')].find((el) => {
+          const r = el.getBoundingClientRect()
+          return r.top <= 8 && r.bottom >= 0
         })
-        if (candidate) goTo(candidate.offsetTop)
-      }, 200)
+        if (noSnapActive) return
+        const vh = window.innerHeight
+        const candidate = snaps().find((el) => {
+          const dist = Math.abs(el.getBoundingClientRect().top)
+          return dist > 6 && dist < vh * 0.6
+        })
+        if (candidate) goTo(candidate.offsetTop, candidate.dataset.noSnap !== undefined)
+      }, 100)
     })
 
-    // ── Touch ────────────────────────────────────────────────────────
-    let touchY = 0, touchT = 0
-    const onTouchStart = (e) => {
-      touchY = e.touches[0]?.clientY ?? 0
-      touchT = Date.now()
+    // Gallery fires this when it wants to exit to next/prev section
+    const onGalleryExit = ({ detail: { dir } }) => {
+      const gallery = document.getElementById('depth-gallery')
+      if (!gallery) return
+      const list = snaps()
+      const idx = list.indexOf(gallery)
+      const target = dir > 0 ? list[idx + 1] : list[idx - 1]
+      if (target) goTo(target.offsetTop, true)
     }
-    const onTouchEnd = (e) => {
-      if (animating.current) return
-      const dy       = touchY - (e.changedTouches[0]?.clientY ?? touchY)
-      const velocity = Math.abs(dy) / Math.max(1, Date.now() - touchT)
-      if (Math.abs(dy) < 25 && velocity < 0.25) return
 
-      const els    = snaps()
-      const atSnap = els.find(el => Math.abs(el.getBoundingClientRect().top) < 80)
+    // Page-level wheel — delegates to snap logic unless a data-no-snap section owns it
+    const onWheel = (e) => {
+      if (navigating) return
+      const list = snaps()
+      // If a data-no-snap section is at the top and user scrolls down, let it handle it
+      if (list.find((el) => el.dataset.noSnap !== undefined && Math.abs(el.getBoundingClientRect().top) < 12) && e.deltaY > 0) return
+      const atSnap = list.find((el) => Math.abs(el.getBoundingClientRect().top) < 12)
       if (!atSnap) return
-
-      const idx = els.indexOf(atSnap)
-      if (dy > 0 && idx < els.length - 1) goTo(els[idx + 1].offsetTop)
-      else if (dy < 0)                    goTo(idx > 0 ? els[idx - 1].offsetTop : 0)
+      const idx = list.indexOf(atSnap)
+      if (e.deltaY > 0 && idx < list.length - 1) {
+        const next = list[idx + 1]
+        goTo(next.offsetTop, next.dataset.noSnap !== undefined)
+      } else if (e.deltaY < 0 && idx > 0) {
+        const prev = list[idx - 1]
+        goTo(prev.offsetTop, prev.dataset.noSnap !== undefined)
+      }
     }
 
-    window.addEventListener('wheel',      onWheel,      { passive: true })
-    window.addEventListener('touchstart', onTouchStart, { passive: true })
-    window.addEventListener('touchend',   onTouchEnd,   { passive: true })
+    window.addEventListener('wheel', onWheel, { passive: true })
+    window.addEventListener('dm:gallery-exit', onGalleryExit)
 
     return () => {
       ctx.revert()
       lenis.destroy()
       gsap.ticker.remove(onTick)
-      window.removeEventListener('wheel',      onWheel)
-      window.removeEventListener('touchstart', onTouchStart)
-      window.removeEventListener('touchend',   onTouchEnd)
+      window.removeEventListener('wheel', onWheel)
+      window.removeEventListener('dm:gallery-exit', onGalleryExit)
       clearTimeout(snapTimer)
     }
   }, [])

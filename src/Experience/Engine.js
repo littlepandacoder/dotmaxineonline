@@ -80,6 +80,7 @@ class Engine {
       window.addEventListener('keydown', this.onKeyDown)
       if (!skipScrollBind) this.scroll.bindEvents()
 
+      window.__dm_bg = this.experience.background
       this.isInitialized = true
       this.start()
 
@@ -221,6 +222,7 @@ class Engine {
     this.preloadedTextures.clear()
     this.stats?.dom.remove()
     this.stats = null
+    window.__dm_bg = null
     this.experience.dispose?.()
   }
 }

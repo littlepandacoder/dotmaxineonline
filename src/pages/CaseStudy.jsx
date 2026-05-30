@@ -1,14 +1,16 @@
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
-import { galleryPlaneData } from '@/data/galleryData'
+import { useGallery } from '@/context/GalleryContext'
 import styles from './CaseStudy.module.css'
 
 export default function CaseStudy() {
   const { slug } = useParams()
   const navigate = useNavigate()
-  const goBack = () => navigate('/', { state: { scrollTo: 'gallery' } })
-  const data = galleryPlaneData.find(p => p.caseStudy?.slug === slug)
+  const { state } = useLocation()
+  const { planeData } = useGallery()
+  const goBack = () => navigate('/', { state: { galleryScroll: state?.galleryScroll, pageScroll: state?.pageScroll } })
+  const data = planeData.find(p => p.caseStudy?.slug === slug)
   const cs = data?.caseStudy
 
   const heroRef = useRef(null)
@@ -91,17 +93,17 @@ export default function CaseStudy() {
 
         {/* Body */}
         <section className={styles.section} data-anim>
-          <h2 className={styles.sectionHeading}>Overview</h2>
+          <h2 className={styles.sectionHeading}>{cs.section1Title || 'Overview'}</h2>
           <p className={styles.body}>{cs.overview}</p>
         </section>
 
         <section className={styles.section} data-anim>
-          <h2 className={styles.sectionHeading}>Approach</h2>
+          <h2 className={styles.sectionHeading}>{cs.section2Title || 'Approach'}</h2>
           <p className={styles.body}>{cs.approach}</p>
         </section>
 
         <section className={styles.section} data-anim>
-          <h2 className={styles.sectionHeading}>Outcome</h2>
+          <h2 className={styles.sectionHeading}>{cs.section3Title || 'Outcome'}</h2>
           <p className={styles.body}>{cs.outcome}</p>
         </section>
 
