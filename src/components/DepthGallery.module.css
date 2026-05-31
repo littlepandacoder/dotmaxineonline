@@ -81,3 +81,11 @@
   z-index: 90;
   white-space: nowrap;
 }
+
+@media (max-width: 768px) {
+  .heading { top: 28px; }
+  .label { font-size: 0.6rem; letter-spacing: 0.12em; }
+  .title { font-size: clamp(1.4rem, 5vw, 2rem); }
+  .topFade { height: 140px; }
+  .hint { font-size: 0.58rem; letter-spacing: 0.1em; bottom: 18px; }
+}

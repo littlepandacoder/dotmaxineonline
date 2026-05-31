@@ -10,8 +10,13 @@ export default function BrainSection() {
   const revealRef  = useRef(null)
 
   useEffect(() => {
+    // Skip reveal animation on mobile — iframe fills screen, no overlay needed
+    if (window.innerWidth <= 768) {
+      if (revealRef.current) revealRef.current.style.opacity = '0'
+      return
+    }
+
     const ctx = gsap.context(() => {
-      // Gradient reveal: overlay fades out each time section enters view
       const fireReveal = () =>
         gsap.fromTo(
           revealRef.current,
@@ -24,7 +29,6 @@ export default function BrainSection() {
         onEnter:     fireReveal,
         onEnterBack: fireReveal,
       })
-
     })
     return () => ctx.revert()
   }, [])
@@ -35,7 +39,7 @@ export default function BrainSection() {
       data-snap
       data-no-entrance
       data-nav-light
-className={styles.section}
+      className={styles.section}
     >
       <iframe
         src="/brain/index.html"
