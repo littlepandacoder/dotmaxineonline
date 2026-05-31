@@ -1,0 +1,425 @@
+<!DOCTYPE html><html lang=en><head><title>Amelia Brain 2.0</title><meta charset=utf-8><meta name=author content=""><meta name=copyright content=""><meta name=ROBOTS content="INDEX, FOLLOW"><meta name=creation_Date content=""><meta name=description content=""><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><link rel=apple-touch-icon sizes=57x57 href=./src/assets/img/ico/apple-icon-57x57.png><link rel=apple-touch-icon sizes=60x60 href=./src/assets/img/ico/apple-icon-60x60.png><link rel=apple-touch-icon sizes=72x72 href=./src/assets/img/ico/apple-icon-72x72.png><link rel=apple-touch-icon sizes=76x76 href=./src/assets/img/ico/apple-icon-76x76.png><link rel=apple-touch-icon sizes=114x114 href=./src/assets/img/ico/apple-icon-114x114.png><link rel=apple-touch-icon sizes=120x120 href=./src/assets/img/ico/apple-icon-120x120.png><link rel=apple-touch-icon sizes=144x144 href=./src/assets/img/ico/apple-icon-144x144.png><link rel=apple-touch-icon sizes=152x152 href=./src/assets/img/ico/apple-icon-152x152.png><link rel=apple-touch-icon sizes=180x180 href=./src/assets/img/ico/apple-icon-180x180.png><link rel=icon type=image/png sizes=192x192 href=./src/assets/img/ico/android-icon-192x192.png><link rel=icon type=image/png sizes=32x32 href=./src/assets/img/ico/favicon-32x32.png><link rel=icon type=image/png sizes=96x96 href=./src/assets/img/ico/favicon-96x96.png><link rel=icon type=image/png sizes=16x16 href=./src/assets/img/ico/favicon-16x16.png><meta name=msapplication-TileColor content=#000000><meta name=msapplication-TileImage content=./src/assets/img/ico/ms-icon-144x144.png><meta name=theme-color content=#000000><meta name=twitter:card content=summary><meta name=twitter:site content=@account><meta name=twitter:title content=Title><meta name=twitter:description content=Description><meta name=twitter:creator content=@cmacmillanmarin><meta name=twitter:image content=./src/assets/img/share/share_twitter.jpg><meta property=og:title content=Title><meta property=og:type content=article><meta property=og:url content=""><meta property=og:image content=./src/assets/img/share/share_facebook.jpg><meta property=og:description content=Description><meta property=og:site_name content=Sitename><meta property=fb:admins content=0000000000><!--[if IE]>
+            <script type="text/javascript">
+                 var console = { log: function() {} };
+            </script>
+        <![endif]--><link href=./static/css/app.c90e00a6bd32dd9762df99538afbd09f.css rel=stylesheet></head><body><div id=service-buttons-left><div class=service-btn data-service=digital-marketing><span class=btn-icon>◈</span> <span class=btn-label>Digital Marketing</span></div><div class=service-btn data-service=social-media><span class=btn-icon>◈</span> <span class=btn-label>Social Media</span></div><div class=service-btn data-service=branding><span class=btn-icon>◈</span> <span class=btn-label>Branding</span></div></div><div id=service-buttons-right><div class=service-btn data-service=graphic-design><span class=btn-icon>◈</span> <span class=btn-label>Graphic Design</span></div><div class=service-btn data-service=web-dev><span class=btn-icon>◈</span> <span class=btn-label>Web Design & Dev</span></div><div class=service-btn data-service=ads><span class=btn-icon>◈</span> <span class=btn-label>Ads Management</span></div></div><svg id=connectors-svg style=position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:99; xmlns=http://www.w3.org/2000/svg></svg><div id=service-modal class=modal-hidden><div id=modal-backdrop></div><div id=modal-card><button id=modal-close>✕</button><div id=modal-content></div></div></div><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        #service-buttons-left {
+            position: fixed;
+            /* ↓ BRAIN DISTANCE: increase the vw number to push buttons further from brain, decrease to bring closer */
+            left: calc(50% - 45vw);
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: clamp(16px, 3.2vh, 44px);
+            z-index: 100;
+        }
+
+        #service-buttons-right {
+            position: fixed;
+            /* ↓ BRAIN DISTANCE: increase the vw number to push buttons further from brain, decrease to bring closer */
+            right: calc(50% - 45vw);
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: clamp(16px, 3.2vh, 44px);
+            z-index: 100;
+        }
+
+        .service-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 18px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            cursor: pointer;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+            min-width: 190px;
+            font-family: 'Inter', 'Helvetica Neue', sans-serif;
+        }
+
+        .service-btn:hover {
+            background: rgba(255, 255, 255, 0.28);
+            transform: translateX(4px);
+            box-shadow: 0 4px 20px rgba(140, 165, 200, 0.3);
+        }
+
+        .btn-icon {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .btn-label {
+            color: rgba(255, 255, 255, 0.92);
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+            text-shadow: 0 1px 4px rgba(80, 100, 140, 0.5);
+        }
+
+        /* Modal */
+        #service-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #service-modal.modal-hidden {
+            display: none;
+        }
+
+        #modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(30, 45, 75, 0.45);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+
+        #modal-card {
+            position: relative;
+            z-index: 1;
+            background: rgba(225, 232, 243, 0.40);
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            border-radius: 18px;
+            padding: 36px 40px 32px;
+            max-width: 520px;
+            width: 90vw;
+            max-height: 80vh;
+            overflow-y: auto;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(80, 110, 160, 0.25), inset 0 1px 0 rgba(255,255,255,0.6);
+            font-family: 'Inter', 'Helvetica Neue', sans-serif;
+        }
+
+        #modal-close {
+            position: absolute;
+            top: 16px;
+            right: 18px;
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-size: 13px;
+            color: rgba(50, 70, 110, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            line-height: 1;
+            padding: 0;
+        }
+
+        #modal-close:hover {
+            background: rgba(255, 255, 255, 0.55);
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: rgba(30, 50, 90, 0.95);
+            margin: 0 0 6px;
+            letter-spacing: -0.3px;
+        }
+
+        .modal-tagline {
+            font-size: 14px;
+            color: rgba(60, 85, 130, 0.75);
+            font-weight: 400;
+            margin: 0 0 22px;
+            line-height: 1.5;
+        }
+
+        .modal-section-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            color: rgba(100, 130, 185, 0.9);
+            margin: 0 0 12px;
+        }
+
+        .modal-items {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .modal-items li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 13.5px;
+            color: rgba(35, 55, 95, 0.88);
+            font-weight: 400;
+            line-height: 1.45;
+        }
+
+        .modal-items li::before {
+            content: '—';
+            color: rgba(100, 140, 200, 0.7);
+            font-weight: 300;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        /* --- Button animations --- */
+        @keyframes btnFadeIn {
+            from { opacity: 0; transform: translateX(var(--slide-dir, -28px)) translateY(0); }
+            to   { opacity: 1; transform: translateX(0) translateY(0); }
+        }
+        @keyframes btnFloat {
+            0%, 100% { transform: translateY(0px); }
+            50%       { transform: translateY(-7px); }
+        }
+        @keyframes btnPulse {
+            0%   { transform: scale(1); }
+            40%  { transform: scale(0.93); }
+            100% { transform: scale(1); }
+        }
+        .btn-animated {
+            opacity: 0;
+            animation: btnFadeIn 0.65s ease forwards, btnFloat 2.8s ease-in-out infinite;
+        }
+        #service-buttons-right .btn-animated { --slide-dir: 28px; }
+        #service-buttons-left  .btn-animated { --slide-dir: -28px; }
+        .btn-pulse {
+            animation: btnPulse 0.3s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards !important;
+        }
+
+        /* --- Modal animations --- */
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.88) translateY(16px); }
+            to   { opacity: 1; transform: scale(1)    translateY(0); }
+        }
+        @keyframes modalOut {
+            from { opacity: 1; transform: scale(1)   translateY(0); }
+            to   { opacity: 0; transform: scale(0.92) translateY(10px); }
+        }
+        .modal-enter { animation: modalIn  0.38s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+        .modal-exit  { animation: modalOut 0.22s ease-in both; }</style><script>var services = {
+            'digital-marketing': {
+                title: 'Digital Marketing',
+                tagline: 'No fluff. Just growth. We don\'t guess — we strategize.',
+                section: 'WHAT WE COOK',
+                items: [
+                    'Strategy & Roadmap',
+                    'SEO & Content Marketing',
+                    'Funnel Building & CRO',
+                    'Influencer & Affiliate Marketing',
+                    'Lead Generation'
+                ]
+            },
+            'social-media': {
+                title: 'Social Media Management',
+                tagline: 'Stop posting and hoping.',
+                section: 'WHAT WE COOK',
+                items: [
+                    'Monthly content strategy',
+                    'Video & photo production',
+                    'Copywriting & captions',
+                    'Posting & scheduling',
+                    'Platform management (IG, TikTok, FB, LinkedIn, YouTube)'
+                ]
+            },
+            'branding': {
+                title: 'Branding',
+                tagline: 'A feeling. An identity. A story. We build all three.',
+                section: "WHAT'S INCLUDED",
+                items: [
+                    'Brand strategy & positioning',
+                    'Logo design',
+                    'Color palette & typography system',
+                    'Brand voice & tone of voice guide',
+                    'Brand story & messaging framework',
+                    'Brand guidelines document',
+                    'Business card & stationery design',
+                    'Social media profile kit'
+                ]
+            },
+            'graphic-design': {
+                title: 'Graphic Design',
+                tagline: 'Good design sells. Bad design apologises. We don\'t apologise.',
+                section: "WHAT'S INCLUDED",
+                items: [
+                    'Social media post templates',
+                    'Ad creatives & banners',
+                    'Pitch decks & presentations',
+                    'Packaging & print design',
+                    'Infographics & visual content',
+                    'Motion graphics & animated posts',
+                    'Menu, flyer & brochure design',
+                    'Thumbnail & cover design'
+                ]
+            },
+            'web-dev': {
+                title: 'Website Design & Development',
+                tagline: 'Your website has 3 seconds to impress. We make every one count.',
+                section: 'WHAT WE COOK',
+                items: [
+                    'Custom web development',
+                    'UI/UX design & wireframing',
+                    'Landing pages',
+                    'E-commerce stores',
+                    'Full technical setup & SEO',
+                    'Post-launch support & maintenance'
+                ]
+            },
+            'ads': {
+                title: 'Ads Management',
+                tagline: 'Stop boosting posts and hoping for the best. Your budget deserves better than guesswork.',
+                section: 'WHAT WE COOK',
+                items: [
+                    'Ad creative production',
+                    'Google Search & Display Ads',
+                    'Meta Ads (Facebook & Instagram)',
+                    'TikTok Ads',
+                    'YouTube Ads'
+                ]
+            }
+        };
+
+        // Brain world radius (Three.js units), FOV=50° → half-angle tan
+        var BRAIN_WORLD_R = 75;
+        var FOV_TAN = Math.tan(25 * Math.PI / 180);
+
+        function brainScreenRadius() {
+            var cz = window.__brainCameraZ || 380;
+            return BRAIN_WORLD_R * (window.innerHeight / 2) / (FOV_TAN * cz);
+        }
+
+        // --- Modal ---
+        function openModal(serviceKey) {
+            var s = services[serviceKey];
+            if (!s) return;
+            var html = '<h2 class="modal-title">' + s.title + '</h2>'
+                + '<p class="modal-tagline">' + s.tagline + '</p>'
+                + '<p class="modal-section-label">' + s.section + '</p>'
+                + '<ul class="modal-items">'
+                + s.items.map(function(i){ return '<li>' + i + '</li>'; }).join('')
+                + '</ul>';
+            document.getElementById('modal-content').innerHTML = html;
+            var modal = document.getElementById('service-modal');
+            var card  = document.getElementById('modal-card');
+            modal.classList.remove('modal-hidden');
+            card.classList.remove('modal-exit');
+            void card.offsetWidth; // force reflow to restart animation
+            card.classList.add('modal-enter');
+        }
+
+        function closeModal() {
+            var card  = document.getElementById('modal-card');
+            var modal = document.getElementById('service-modal');
+            card.classList.remove('modal-enter');
+            card.classList.add('modal-exit');
+            setTimeout(function() { modal.classList.add('modal-hidden'); }, 220);
+        }
+
+        // --- Connectors (live, zoom-aware) ---
+        var NS = 'http://www.w3.org/2000/svg';
+        var _els = []; // cached SVG elements per button
+
+        function buildConnectorElements() {
+            var svg = document.getElementById('connectors-svg');
+            while (svg.firstChild) svg.removeChild(svg.firstChild);
+            _els = [];
+            document.querySelectorAll('.service-btn').forEach(function() {
+                var dotA = document.createElementNS(NS, 'circle');
+                dotA.setAttribute('r', '2.5');
+                dotA.setAttribute('fill', 'white');
+                dotA.setAttribute('fill-opacity', '0.5');
+
+                var line = document.createElementNS(NS, 'line');
+                line.setAttribute('stroke', 'white');
+                line.setAttribute('stroke-opacity', '0.35');
+                line.setAttribute('stroke-width', '1');
+
+                var dotB = document.createElementNS(NS, 'circle');
+                dotB.setAttribute('r', '3.5');
+                dotB.setAttribute('fill', 'white');
+                dotB.setAttribute('fill-opacity', '0.82');
+
+                svg.appendChild(dotA);
+                svg.appendChild(line);
+                svg.appendChild(dotB);
+                _els.push({ dotA: dotA, line: line, dotB: dotB });
+            });
+        }
+
+        function liveUpdateConnectors() {
+            var cx = window.innerWidth  / 2;
+            var cy = window.innerHeight / 2;
+            var br = brainScreenRadius();
+            var i  = 0;
+
+            function place(btn, fromRight) {
+                var el   = _els[i++];
+                if (!el) return;
+                var rect = btn.getBoundingClientRect();
+                var bx   = fromRight ? rect.right + 5 : rect.left - 5;
+                var by   = rect.top  + rect.height / 2;
+                var dx   = cx - bx,  dy = cy - by;
+                var dist = Math.sqrt(dx * dx + dy * dy);
+                var ex   = cx - (dx / dist) * br;
+                var ey   = cy - (dy / dist) * br;
+
+                el.dotA.setAttribute('cx', bx); el.dotA.setAttribute('cy', by);
+                el.line.setAttribute('x1', bx); el.line.setAttribute('y1', by);
+                el.line.setAttribute('x2', ex); el.line.setAttribute('y2', ey);
+                el.dotB.setAttribute('cx', ex); el.dotB.setAttribute('cy', ey);
+            }
+
+            document.querySelectorAll('#service-buttons-left  .service-btn').forEach(function(b){ place(b, true);  });
+            document.querySelectorAll('#service-buttons-right .service-btn').forEach(function(b){ place(b, false); });
+
+            requestAnimationFrame(liveUpdateConnectors);
+        }
+
+        // --- Button CSS animations ---
+        function initButtonAnimations() {
+            document.querySelectorAll('.service-btn').forEach(function(btn, i) {
+                btn.style.animationDelay = (0.25 + i * 0.12) + 's, ' + (i * 0.22) + 's';
+                btn.classList.add('btn-animated');
+                btn.addEventListener('click', function() {
+                    btn.classList.remove('btn-pulse');
+                    void btn.offsetWidth;
+                    btn.classList.add('btn-pulse');
+                });
+                btn.addEventListener('animationend', function(e) {
+                    if (e.animationName === 'btnPulse') btn.classList.remove('btn-pulse');
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.service-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    openModal(btn.getAttribute('data-service'));
+                });
+            });
+            document.getElementById('modal-close').addEventListener('click', closeModal);
+            document.getElementById('modal-backdrop').addEventListener('click', closeModal);
+
+            requestAnimationFrame(function() {
+                buildConnectorElements();
+                requestAnimationFrame(liveUpdateConnectors);
+                initButtonAnimations();
+            });
+        });</script><script type=text/javascript src=./static/js/manifest.2ae2e69a05c33dfc65f8.js></script><script type=text/javascript src=./static/js/vendor.12ac80d942e89dec9800.js></script><script type=text/javascript src=./static/js/app.df092b41fa533e408917.js></script></body></html>
