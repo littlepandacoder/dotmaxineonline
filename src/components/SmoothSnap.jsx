@@ -61,8 +61,8 @@ export default function SmoothSnap({ locationState }) {
           )
         }
 
-        // Scroll-down exit blur — skip hero/gallery (own animations) and zoom-exit sections
-        if (el.dataset.noSnap === undefined && el.dataset.zoomExit === undefined) {
+        // Scroll-down exit blur — skip hero and gallery (they handle it themselves)
+        if (el.dataset.noSnap === undefined) {
           gsap.fromTo(
             el,
             { filter: 'blur(0px)', opacity: 1, scale: 1 },

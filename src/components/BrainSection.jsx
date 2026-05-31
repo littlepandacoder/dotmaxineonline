@@ -25,24 +25,6 @@ export default function BrainSection() {
         onEnterBack: fireReveal,
       })
 
-      // Zoom-blur exit: section zooms in and dissolves as it scrolls out
-      gsap.fromTo(
-        sectionRef.current,
-        { scale: 1, filter: 'blur(0px)', opacity: 1 },
-        {
-          scale: 1.35,
-          filter: 'blur(22px)',
-          opacity: 0,
-          ease: 'none',
-          transformOrigin: 'center center',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top top',
-            end: 'top -42%',
-            scrub: 0.6,
-          },
-        }
-      )
     })
     return () => ctx.revert()
   }, [])
@@ -53,8 +35,7 @@ export default function BrainSection() {
       data-snap
       data-no-entrance
       data-nav-light
-      data-zoom-exit
-      className={styles.section}
+className={styles.section}
     >
       <iframe
         src="/brain/index.html"
