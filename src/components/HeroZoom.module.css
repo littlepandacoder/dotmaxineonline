@@ -1,5 +1,5 @@
 .zoomSection {
-  height: 400vh;
+  height: 180vh;
   position: relative;
 }
 
@@ -20,7 +20,7 @@
 .overlay {
   position: absolute;
   inset: 0;
-  background: #E7EBF3;
+  background: linear-gradient(#E7EBF3, #C7D0E2, #E7EBF3);
   opacity: 0;
   pointer-events: none;
 }

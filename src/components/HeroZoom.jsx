@@ -31,35 +31,35 @@ export default function HeroZoom() {
         trigger: sectionRef.current,
         start: 'top top',
         end: 'bottom bottom',
-        scrub: 1.5,
+        scrub: 0.8,
       }
 
-      // Skull zooms and blurs in sync
+      // Skull zooms and blurs — shorter, punchier
       gsap.fromTo(
         skullWrapRef.current,
         { scale: 1, filter: 'blur(0px) brightness(1)' },
-        { scale: 8, filter: 'blur(28px) brightness(0.4)', ease: 'none', scrollTrigger: scrollOpts }
+        { scale: 4, filter: 'blur(24px) brightness(0.5)', ease: 'power1.in', scrollTrigger: scrollOpts }
       )
 
-      // Content drifts up, blurs, and fades out quickly
+      // Content drifts up and fades out in the first third of scroll
       gsap.to(contentRef.current, {
-        y: -160,
+        y: -120,
         opacity: 0,
-        filter: 'blur(12px)',
+        filter: 'blur(10px)',
         ease: 'none',
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: '+=400',
-          scrub: 1,
+          end: '+=260',
+          scrub: 0.8,
         },
       })
 
-      // Overlay fades in over everything
+      // Overlay fades in fast — reaches full opacity before bottom, creating crossfade into brain
       gsap.fromTo(
         overlayRef.current,
         { opacity: 0 },
-        { opacity: 1, ease: 'power3.in', scrollTrigger: scrollOpts }
+        { opacity: 1, ease: 'power2.in', scrollTrigger: scrollOpts }
       )
     })
 
