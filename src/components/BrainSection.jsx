@@ -11,20 +11,38 @@ export default function BrainSection() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      // Gradient reveal: overlay fades out each time section enters view
       const fireReveal = () =>
         gsap.fromTo(
           revealRef.current,
           { opacity: 1 },
           { opacity: 0, duration: 0.55, ease: 'power2.out', overwrite: true }
         )
-
-      // Trigger each time the section scrolls into view from either direction
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: 'top 15px',
         onEnter:     fireReveal,
         onEnterBack: fireReveal,
       })
+
+      // Zoom-blur exit: section zooms in and dissolves as it scrolls out
+      gsap.fromTo(
+        sectionRef.current,
+        { scale: 1, filter: 'blur(0px)', opacity: 1 },
+        {
+          scale: 1.35,
+          filter: 'blur(22px)',
+          opacity: 0,
+          ease: 'none',
+          transformOrigin: 'center center',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top top',
+            end: 'top -42%',
+            scrub: 0.6,
+          },
+        }
+      )
     })
     return () => ctx.revert()
   }, [])
@@ -35,6 +53,7 @@ export default function BrainSection() {
       data-snap
       data-no-entrance
       data-nav-light
+      data-zoom-exit
       className={styles.section}
     >
       <iframe
@@ -44,7 +63,6 @@ export default function BrainSection() {
         scrolling="no"
         allowFullScreen
       />
-      {/* Gradient overlay matching hero end-state — fades out on enter */}
       <div ref={revealRef} className={styles.reveal} />
     </section>
   )
