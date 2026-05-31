@@ -3,11 +3,13 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 18px 32px;
+  opacity: 0; /* GSAP animates in */
+  transition: background 0.4s ease, box-shadow 0.4s ease;
 }
 
 .logo {
@@ -17,6 +19,7 @@
   letter-spacing: 0.04em;
   color: #fff;
   opacity: 0.92;
+  transition: color 0.35s ease, opacity 0.35s ease;
 }
 
 .btn {
@@ -30,9 +33,23 @@
   font-weight: 500;
   letter-spacing: 0.02em;
   text-decoration: none;
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.35s ease, border-color 0.35s ease;
 }
 .btn:hover { background: #f0f0f0; }
+
+/* Dark mode — brain section has light background */
+.dark .logo {
+  color: #1a1a2e;
+  opacity: 0.85;
+}
+.dark .btn {
+  background: rgba(20, 30, 60, 0.12);
+  color: #1a1a2e;
+  border: 1px solid rgba(20, 30, 60, 0.25);
+}
+.dark .btn:hover {
+  background: rgba(20, 30, 60, 0.2);
+}
 
 @media (max-width: 768px) {
   .nav { padding: 14px 20px; }

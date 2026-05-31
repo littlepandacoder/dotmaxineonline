@@ -35,7 +35,7 @@ export default function SmoothSnap({ locationState }) {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    const lenis = new Lenis({ lerp: 0.14, smoothWheel: true, wheelMultiplier: 1.4, touchMultiplier: 2.5 })
+    const lenis = new Lenis({ lerp: 0.12, smoothWheel: true, wheelMultiplier: 1.2, touchMultiplier: 2.2 })
 
     if (savedScroll.current !== null) {
       lenis.scrollTo(savedScroll.current, { immediate: true })
@@ -53,7 +53,7 @@ export default function SmoothSnap({ locationState }) {
         if (el.dataset.noEntrance !== undefined) return
         gsap.fromTo(
           el,
-          { scale: 1.06, opacity: 0.5, transformOrigin: 'center top', willChange: 'transform, opacity' },
+          { scale: 1.05, opacity: 0.4, transformOrigin: 'center top', willChange: 'transform, opacity' },
           {
             scale: 1, opacity: 1, ease: 'none',
             scrollTrigger: { trigger: el, start: 'top bottom', end: 'top top', scrub: true },
@@ -66,29 +66,47 @@ export default function SmoothSnap({ locationState }) {
 
     let navigating = false
     const goTo = (y, lock = false) => {
+      if (navigating) return
       navigating = true
-      lenis.scrollTo(y, { duration: 0.7, easing: easeOut, lock })
-      setTimeout(() => { navigating = false }, 1200)
+      lenis.scrollTo(y, { duration: 0.75, easing: easeOut, lock })
+      setTimeout(() => { navigating = false }, 1000)
     }
 
-    // Auto-snap after scroll settles — skip if a data-no-snap section is visible
+    // Auto-snap after scroll settles
     let snapTimer = null
     lenis.on('scroll', () => {
       clearTimeout(snapTimer)
       snapTimer = setTimeout(() => {
         if (navigating) return
-        const noSnapActive = [...document.querySelectorAll('[data-no-snap]')].find((el) => {
+
+        // Check if we're mid-scroll in a no-snap (scroll-through) section
+        const noSnapEl = [...document.querySelectorAll('[data-no-snap]')].find((el) => {
           const r = el.getBoundingClientRect()
-          return r.top <= 8 && r.bottom >= 0
+          // Partially scrolled past: top is negative but bottom still in view
+          return r.top < -50 && r.bottom > 0
         })
-        if (noSnapActive) return
+
+        if (noSnapEl) {
+          // Snap to nearest boundary: if more than halfway through go forward, else back
+          const r = noSnapEl.getBoundingClientRect()
+          const list = snaps()
+          const idx = list.indexOf(noSnapEl)
+          if (-r.top > r.height * 0.45 && idx < list.length - 1) {
+            goTo(list[idx + 1].offsetTop)
+          } else {
+            goTo(noSnapEl.offsetTop)
+          }
+          return
+        }
+
+        // Standard snap: find a section that's close but not at the top yet
         const vh = window.innerHeight
         const candidate = snaps().find((el) => {
           const dist = Math.abs(el.getBoundingClientRect().top)
-          return dist > 6 && dist < vh * 0.6
+          return dist > 6 && dist < vh * 0.65
         })
         if (candidate) goTo(candidate.offsetTop, candidate.dataset.noSnap !== undefined)
-      }, 100)
+      }, 120)
     })
 
     // Gallery fires this when it wants to exit to next/prev section
@@ -101,14 +119,20 @@ export default function SmoothSnap({ locationState }) {
       if (target) goTo(target.offsetTop, true)
     }
 
-    // Page-level wheel — delegates to snap logic unless a data-no-snap section owns it
+    // Page-level wheel — delegates to snap logic
     const onWheel = (e) => {
       if (navigating) return
       const list = snaps()
-      // If a data-no-snap section is at the top and user scrolls down, let it handle it
-      if (list.find((el) => el.dataset.noSnap !== undefined && Math.abs(el.getBoundingClientRect().top) < 12) && e.deltaY > 0) return
-      const atSnap = list.find((el) => Math.abs(el.getBoundingClientRect().top) < 12)
+
+      // When a no-snap section is freshly at its snap position, let Lenis scroll through it
+      const noSnapAtTop = list.find(
+        (el) => el.dataset.noSnap !== undefined && Math.abs(el.getBoundingClientRect().top) < 10
+      )
+      if (noSnapAtTop && e.deltaY > 0) return
+
+      const atSnap = list.find((el) => Math.abs(el.getBoundingClientRect().top) < 10)
       if (!atSnap) return
+
       const idx = list.indexOf(atSnap)
       if (e.deltaY > 0 && idx < list.length - 1) {
         const next = list[idx + 1]
