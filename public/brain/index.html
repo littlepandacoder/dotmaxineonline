@@ -2,7 +2,7 @@
             <script type="text/javascript">
                  var console = { log: function() {} };
             </script>
-        <![endif]--><link href=./static/css/app.c90e00a6bd32dd9762df99538afbd09f.css rel=stylesheet></head><body><div id=service-buttons-left><div class=service-btn data-service=digital-marketing><span class=btn-icon>◈</span> <span class=btn-label>Digital Marketing</span></div><div class=service-btn data-service=social-media><span class=btn-icon>◈</span> <span class=btn-label>Social Media</span></div><div class=service-btn data-service=branding><span class=btn-icon>◈</span> <span class=btn-label>Branding</span></div></div><div id=service-buttons-right><div class=service-btn data-service=graphic-design><span class=btn-icon>◈</span> <span class=btn-label>Graphic Design</span></div><div class=service-btn data-service=web-dev><span class=btn-icon>◈</span> <span class=btn-label>Web Design & Dev</span></div><div class=service-btn data-service=ads><span class=btn-icon>◈</span> <span class=btn-label>Ads Management</span></div></div><svg id=connectors-svg style=position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:99; xmlns=http://www.w3.org/2000/svg></svg><div id=service-modal class=modal-hidden><div id=modal-backdrop></div><div id=modal-card><button id=modal-close>✕</button><div id=modal-content></div></div></div><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        <![endif]--><link href=./static/css/app.c90e00a6bd32dd9762df99538afbd09f.css rel=stylesheet><style>html{height:100%;overflow:hidden}body>canvas{position:fixed!important;top:0;left:0;width:100%!important;height:100%!important}</style></head><body><div id=service-buttons-left><div class=service-btn data-service=digital-marketing><span class=btn-icon>◈</span> <span class=btn-label>Digital Marketing</span></div><div class=service-btn data-service=social-media><span class=btn-icon>◈</span> <span class=btn-label>Social Media</span></div><div class=service-btn data-service=branding><span class=btn-icon>◈</span> <span class=btn-label>Branding</span></div></div><div id=service-buttons-right><div class=service-btn data-service=graphic-design><span class=btn-icon>◈</span> <span class=btn-label>Graphic Design</span></div><div class=service-btn data-service=web-dev><span class=btn-icon>◈</span> <span class=btn-label>Web Design & Dev</span></div><div class=service-btn data-service=ads><span class=btn-icon>◈</span> <span class=btn-label>Ads Management</span></div></div><svg id=connectors-svg style=position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:99; xmlns=http://www.w3.org/2000/svg></svg><div id=service-modal class=modal-hidden><div id=modal-backdrop></div><div id=modal-card><button id=modal-close>✕</button><div id=modal-content></div></div></div><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
         #service-buttons-left {
             position: fixed;
@@ -301,8 +301,8 @@
         var FOV_TAN = Math.tan(25 * Math.PI / 180);
 
         function brainScreenRadius() {
-            var cz = window.__brainCameraZ || 380;
-            return BRAIN_WORLD_R * (window.innerHeight / 2) / (FOV_TAN * cz);
+            var cz = 380;
+            var r = BRAIN_WORLD_R * (window.innerHeight / 2) / (FOV_TAN * cz);return Math.max(80, Math.min(r, window.innerWidth * 0.22));
         }
 
         // --- Modal ---

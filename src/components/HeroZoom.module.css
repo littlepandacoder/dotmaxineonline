@@ -20,7 +20,7 @@
 .overlay {
   position: absolute;
   inset: 0;
-  background: #ffffff;
+  background: #E7EBF3;
   opacity: 0;
   pointer-events: none;
 }
