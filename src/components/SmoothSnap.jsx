@@ -47,18 +47,38 @@ export default function SmoothSnap({ locationState }) {
     gsap.ticker.lagSmoothing(0)
     lenis.on('scroll', ScrollTrigger.update)
 
-    // Entrance animations — skip sections with data-no-entrance
     const ctx = gsap.context(() => {
       document.querySelectorAll('[data-snap]').forEach((el) => {
-        if (el.dataset.noEntrance !== undefined) return
-        gsap.fromTo(
-          el,
-          { scale: 1.05, opacity: 0.4, transformOrigin: 'center top', willChange: 'transform, opacity' },
-          {
-            scale: 1, opacity: 1, ease: 'none',
-            scrollTrigger: { trigger: el, start: 'top bottom', end: 'top top', scrub: true },
-          }
-        )
+        // Entrance scale-up — skip if opted out
+        if (el.dataset.noEntrance === undefined) {
+          gsap.fromTo(
+            el,
+            { scale: 1.05, opacity: 0.4, transformOrigin: 'center top', willChange: 'transform, opacity' },
+            {
+              scale: 1, opacity: 1, ease: 'none',
+              scrollTrigger: { trigger: el, start: 'top bottom', end: 'top top', scrub: true },
+            }
+          )
+        }
+
+        // Scroll-down exit blur — skip the scroll-through hero and gallery (they handle it themselves)
+        if (el.dataset.noSnap === undefined) {
+          gsap.fromTo(
+            el,
+            { filter: 'blur(0px)', opacity: 1, scale: 1 },
+            {
+              filter: 'blur(18px)', opacity: 0, scale: 0.96,
+              ease: 'none',
+              transformOrigin: 'center center',
+              scrollTrigger: {
+                trigger: el,
+                start: 'top top',
+                end: 'top -38%',
+                scrub: 0.5,
+              },
+            }
+          )
+        }
       })
     })
 

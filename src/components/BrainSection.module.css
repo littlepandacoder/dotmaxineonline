@@ -11,3 +11,14 @@
   border: none;
   background: transparent;
 }
+
+/* Gradient overlay that matches the hero's fade-out state.
+   Sits above the iframe and dissolves away when the section enters view. */
+.reveal {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, #E7EBF3 0%, #C7D0E2 48%, #E7EBF3 100%);
+  pointer-events: none;
+  z-index: 5;
+  will-change: opacity;
+}
