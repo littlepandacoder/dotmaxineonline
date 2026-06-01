@@ -299,9 +299,11 @@ class ParticleSystem {
     }
 
     updateTransitioning(val) {
-        this.particles.material.uniforms.uProgress.value += 1 / 300;
-        this.particles.customDepthMaterial.uniforms.uProgress.value += 1 / 300;
-        this.particles.customDistanceMaterial.uniforms.uProgress.value += 1 / 300;
+        // Set directly from TweenMax value — avoids double-increment bug
+        // (customDepthMaterial shares the same uniforms object as material)
+        this.particles.material.uniforms.uProgress.value = val;
+        try { this.particles.customDepthMaterial.uniforms.uProgress.value = val; } catch(e) {}
+        try { this.particles.customDistanceMaterial.uniforms.uProgress.value = val; } catch(e) {}
     }
 
     transform(status) {
