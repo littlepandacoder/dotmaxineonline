@@ -309,7 +309,7 @@ class ParticleSystem {
     transform(status) {
         if (status) {
             const progress = { p: 0.0 };
-            TweenMax.fromTo(progress, 5.9, { p: 0.0 }, {
+            TweenMax.fromTo(progress, 2.0, { p: 0.0 }, {
                 p: 1.5,
                 ease: Power1.easeIn,
                 onUpdate: () => {

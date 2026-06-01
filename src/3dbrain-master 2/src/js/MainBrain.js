@@ -113,7 +113,7 @@ class MainBrain extends AbstractApplication {
     const progress = { p: 1000 };
     TweenMax.fromTo(
       progress,
-      6.5,
+      2.0,
       { p: 1000 },
       {
         p: 380,
@@ -205,7 +205,7 @@ class MainBrain extends AbstractApplication {
     this.animate();
     setTimeout(() => {
       this.startIntro();
-    }, 1000);
+    }, 300);
   }
 
   animate(timestamp) {
