@@ -187,36 +187,9 @@ class MainBrain extends AbstractApplication {
     });
   }
 
-  addBrainLines() {
-    if (!this.endPointsCollections) return;
-    try {
-      // Clone so we don't mutate the source geometry
-      const geo = this.endPointsCollections.clone();
-      geo.computeVertexNormals();
-
-      // EdgesGeometry keeps only edges where adjacent faces differ by > threshold degrees,
-      // revealing the major gyri/sulci folds without every micro-triangle edge.
-      const edges = new THREE.EdgesGeometry(geo, 20);
-
-      const mat = new THREE.LineBasicMaterial({
-        color: 0xb0ccee,
-        transparent: true,
-        opacity: 0.32,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-      });
-
-      this.brainLines = new THREE.LineSegments(edges, mat);
-      this.scene.add(this.brainLines);
-    } catch (e) {
-      console.warn('Brain lines skipped:', e);
-    }
-  }
-
   runAnimation() {
     this.gui = new GUI(this);
     this.addBrain();
-    this.addBrainLines();
     this.addParticlesSystem();
     this.font = new Font(this.loaders, this.scene);
     this.bubblesAnimation = new BubblesAnimation(this);
