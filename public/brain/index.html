@@ -215,22 +215,18 @@
         }
         .modal-enter { animation: modalIn  0.38s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
         .modal-exit  { animation: modalOut 0.22s ease-in both; }
-        /* ── Tablet: scale buttons down so they don't overlap ── */
         @media (max-width: 1024px) and (min-width: 769px) {
             .service-btn { min-width: 130px; padding: 8px 12px; }
             .btn-label { font-size: 11px; }
             #service-buttons-left  { left: 2vw; }
             #service-buttons-right { right: 2vw; }
         }
-
-        /* ── Mobile: hide side panels, show a bottom pill grid ── */
         @media (max-width: 768px) {
             #service-buttons-left,
             #service-buttons-right,
             #connectors-svg { display: none !important; }
             #mobile-btns { display: flex !important; }
         }
-
         #mobile-btns {
             display: none;
             position: fixed;
@@ -241,33 +237,20 @@
             flex-direction: column;
             gap: 8px;
         }
-        .mobile-row {
-            display: flex;
-            gap: 8px;
-        }
+        .mobile-row { display: flex; gap: 8px; }
         #mobile-btns .service-btn {
-            flex: 1;
-            min-width: 0;
-            padding: 9px 8px;
-            justify-content: center;
-            border-radius: 8px;
+            flex: 1; min-width: 0; padding: 9px 8px;
+            justify-content: center; border-radius: 8px;
             border: 1px solid rgba(255,255,255,0.4);
             background: rgba(255,255,255,0.12);
-            animation: none !important;
-            opacity: 1 !important;
+            animation: none !important; opacity: 1 !important;
         }
         #mobile-btns .btn-icon { display: none; }
         #mobile-btns .btn-label {
-            font-size: 10.5px;
-            white-space: normal;
-            text-align: center;
-            line-height: 1.25;
-            letter-spacing: 0;
+            font-size: 10.5px; white-space: normal;
+            text-align: center; line-height: 1.25; letter-spacing: 0;
         }
-        #modal-card {
-            padding: 28px 20px 24px;
-            border-radius: 16px;
-        }
+        #modal-card { padding: 28px 20px 24px; border-radius: 16px; }
 </style><script>var services = {
             'digital-marketing': {
                 title: 'Digital Marketing',
@@ -476,15 +459,4 @@
                 requestAnimationFrame(liveUpdateConnectors);
                 initButtonAnimations();
             });
-        });</script><script type=text/javascript src=./static/js/manifest.2ae2e69a05c33dfc65f8.js></script><script type=text/javascript src=./static/js/vendor.12ac80d942e89dec9800.js></script><script type=text/javascript src=./static/js/app.e5b3cfa2b57c8500c7e9.js></script><div id="mobile-btns">
-  <div class="mobile-row">
-    <div class="service-btn" data-service="digital-marketing"><span class="btn-label">Digital Marketing</span></div>
-    <div class="service-btn" data-service="social-media"><span class="btn-label">Social Media</span></div>
-    <div class="service-btn" data-service="branding"><span class="btn-label">Branding</span></div>
-  </div>
-  <div class="mobile-row">
-    <div class="service-btn" data-service="graphic-design"><span class="btn-label">Graphic Design</span></div>
-    <div class="service-btn" data-service="web-dev"><span class="btn-label">Web Design & Dev</span></div>
-    <div class="service-btn" data-service="ads"><span class="btn-label">Ads Management</span></div>
-  </div>
-</div><script>window.addEventListener("wheel",function(e){try{window.parent.dispatchEvent(new WheelEvent("wheel",{deltaY:e.deltaY,deltaX:e.deltaX,bubbles:true,cancelable:false}))}catch(err){}},{passive:true})</script></body></html>
+        });</script><script type=text/javascript src=./static/js/manifest.2ae2e69a05c33dfc65f8.js></script><script type=text/javascript src=./static/js/vendor.12ac80d942e89dec9800.js></script><script type=text/javascript src=./static/js/app.a898c82a09a49474292f.js></script><script>window.addEventListener("wheel",function(e){try{window.parent.dispatchEvent(new WheelEvent("wheel",{deltaY:e.deltaY,deltaX:e.deltaX,bubbles:true,cancelable:false}))}catch(err){}},{passive:true})</script></body></html>
