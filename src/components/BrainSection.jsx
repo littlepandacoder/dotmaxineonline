@@ -39,6 +39,7 @@ export default function BrainSection() {
       data-snap
       data-no-entrance
       data-nav-light
+      data-no-exit-blur
       className={styles.section}
     >
       <iframe
