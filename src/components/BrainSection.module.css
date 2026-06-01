@@ -10,6 +10,9 @@
   height: 100%;
   border: none;
   background: transparent;
+  /* Ensure the iframe fills the full viewport on all devices */
+  min-height: 100%;
+  min-width: 100%;
 }
 
 /* Gradient overlay that matches the hero's fade-out state.

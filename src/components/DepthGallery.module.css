@@ -83,9 +83,15 @@
 }
 
 @media (max-width: 768px) {
-  .heading { top: 28px; }
-  .label { font-size: 0.6rem; letter-spacing: 0.12em; }
-  .title { font-size: clamp(1.4rem, 5vw, 2rem); }
-  .topFade { height: 140px; }
-  .hint { font-size: 0.58rem; letter-spacing: 0.1em; bottom: 18px; }
+  .heading  { top: 22px; }
+  .label    { font-size: 0.58rem; letter-spacing: 0.1em; }
+  .title    { font-size: clamp(1.3rem, 5vw, 1.8rem); }
+  .topFade  { height: 120px; }
+  .hint     { font-size: 0.55rem; letter-spacing: 0.08em; bottom: 14px; white-space: normal; text-align: center; width: 90%; }
+}
+
+@media (max-width: 480px) {
+  .heading  { top: 16px; }
+  .title    { font-size: clamp(1.1rem, 5.5vw, 1.5rem); }
+  .topFade  { height: 90px; }
 }

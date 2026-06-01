@@ -121,17 +121,21 @@
 }
 
 @media (max-width: 768px) {
-  .zoomSection { height: 150vh; }
-  .heroContent { padding: 0 20px; }
-  .welcome { font-size: clamp(1.1rem, 3.5vw, 1.6rem); }
-  .title { font-size: clamp(3.2rem, 18vw, 80px); margin-bottom: 16px; }
-  .subtitle { font-size: 0.88rem; margin-bottom: 20px; }
-  .form { flex-direction: column; gap: 10px; width: 100%; max-width: 320px; }
-  .formInput { width: 100%; text-align: center; }
-  .formBtn { width: 100%; justify-content: center; padding: 11px 22px; font-size: 0.83rem; }
+  .zoomSection  { height: 150vh; }
+  .heroContent  { padding: 0 20px; }
+  .welcome      { font-size: clamp(1rem, 3.5vw, 1.5rem); }
+  .title        { font-size: clamp(3rem, 17vw, 80px); margin-bottom: 14px; }
+  .subtitle     { font-size: 0.85rem; margin-bottom: 18px; padding: 0 4px; }
+  .form         { flex-direction: column; gap: 10px; width: 100%; max-width: 300px; }
+  .formInput    { width: 100%; text-align: center; font-size: 0.84rem; }
+  .formBtn      { width: 100%; justify-content: center; padding: 11px 22px; font-size: 0.82rem; }
 }
 
 @media (max-width: 480px) {
-  .title { font-size: clamp(2.8rem, 16vw, 60px); }
-  .subtitle { font-size: 0.82rem; }
+  .heroContent  { padding: 0 16px; }
+  .title        { font-size: clamp(2.6rem, 15vw, 56px); }
+  .subtitle     { font-size: 0.8rem; }
+  .form         { max-width: 260px; }
+  .formInput    { height: 40px; }
+  .formBtn      { height: 40px; }
 }
