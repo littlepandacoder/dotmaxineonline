@@ -45,8 +45,6 @@ export default function SmoothSnap({ locationState }) {
     const onTick = (t) => lenis.raf(t * 1000)
     gsap.ticker.add(onTick)
     gsap.ticker.lagSmoothing(0)
-    lenis.on('scroll', ScrollTrigger.update)
-
     const ctx = gsap.context(() => {
       document.querySelectorAll('[data-snap]').forEach((el) => {
         // Entrance scale-up — skip if opted out
@@ -92,34 +90,44 @@ export default function SmoothSnap({ locationState }) {
       setTimeout(() => { navigating = false }, 1000)
     }
 
-    // Auto-snap after scroll settles
+    // Track scroll direction so we know which way to resolve a mid-section stop
+    let scrollDir = 1 // 1 = down, -1 = up
+    let prevScrollY = window.scrollY
+
+    // Auto-snap after scroll settles (combined with ScrollTrigger update + direction tracking)
     let snapTimer = null
     lenis.on('scroll', () => {
+      const y = window.scrollY
+      if (Math.abs(y - prevScrollY) > 1) {
+        scrollDir = y > prevScrollY ? 1 : -1
+        prevScrollY = y
+      }
+      ScrollTrigger.update()
+
       clearTimeout(snapTimer)
       snapTimer = setTimeout(() => {
         if (navigating) return
 
-        // Check if we're mid-scroll in a no-snap (scroll-through) section
+        // Mid-scroll inside a no-snap (scroll-through) section?
         const noSnapEl = [...document.querySelectorAll('[data-no-snap]')].find((el) => {
           const r = el.getBoundingClientRect()
-          // Partially scrolled past: top is negative but bottom still in view
           return r.top < -50 && r.bottom > 0
         })
 
         if (noSnapEl) {
-          // Snap to nearest boundary: if more than halfway through go forward, else back
-          const r = noSnapEl.getBoundingClientRect()
           const list = snaps()
           const idx = list.indexOf(noSnapEl)
-          if (-r.top > r.height * 0.45 && idx < list.length - 1) {
+          if (scrollDir > 0 && idx < list.length - 1) {
+            // Was scrolling down → continue forward to next section
             goTo(list[idx + 1].offsetTop)
           } else {
+            // Was scrolling up → snap back to section start
             goTo(noSnapEl.offsetTop)
           }
           return
         }
 
-        // Standard snap: find a section that's close but not at the top yet
+        // Standard snap: find a section close but not yet at top
         const vh = window.innerHeight
         const candidate = snaps().find((el) => {
           const dist = Math.abs(el.getBoundingClientRect().top)
