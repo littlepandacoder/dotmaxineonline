@@ -17,7 +17,7 @@
 .reveal {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, #E7EBF3 0%, #C7D0E2 48%, #E7EBF3 100%);
+  background: #ADBBD6;
   pointer-events: none;
   z-index: 5;
   will-change: opacity;
